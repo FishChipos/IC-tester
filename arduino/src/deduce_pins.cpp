@@ -27,6 +27,9 @@ void printSamples(int samples[64][12]) {
 }
 
 PinFormat deducePins() {
+    int outputThresholdlow = 70;
+    int outputThresholdHigh = 1000;
+
     for (int pin = A0; pin <= A11; ++pin) {
         pinMode(pin, INPUT);
     }
@@ -41,5 +44,21 @@ PinFormat deducePins() {
 
     printSamples(samples);
 
-    return IN_IN_OUT;
+    if ((samples[0][0] > outputThresholdlow || samples[0][0] < outputThresholdHigh) &&
+        (samples[0][1] < outputThresholdlow || samples[0][1] > outputThresholdHigh) &&
+        (samples[0][2] > outputThresholdlow || samples[0][2] < outputThresholdHigh) ) {
+        Serial.println("IN_OUT");
+        return IN_OUT;
+    } 
+    else if (
+        (samples[0][0] < outputThresholdlow || samples[0][0] > outputThresholdHigh) &&
+        (samples[0][1] > outputThresholdlow || samples[0][1] < outputThresholdHigh) &&
+        (samples[0][2] > outputThresholdlow || samples[0][2] < outputThresholdHigh) ) {
+        Serial.println("OUT_IN_IN");
+        return OUT_IN_IN;
+    }  else {
+        Serial.println("IN_IN_OUT");
+        return IN_IN_OUT;
+    }
+
 }

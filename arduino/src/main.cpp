@@ -1,6 +1,7 @@
 #include <Arduino.h>
 
 #include "deduce_pins.hpp"
+#include "deduce_IC.hpp"
 
 static bool buttonPressed = false;
 
@@ -25,6 +26,9 @@ void loop() {
     if (buttonPressed && !digitalRead(3)) {
         delay(100);
         buttonPressed = false;
-        deducePins();
+        PinFormat pinFormat = deducePins();
+        ICType icType = deduceIC(pinFormat);
+        Serial.print("Detected IC Type: ");
+        Serial.println(icType);
     }
 }
