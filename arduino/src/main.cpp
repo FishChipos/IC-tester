@@ -1,0 +1,30 @@
+#include <Arduino.h>
+
+#include "deduce_pins.hpp"
+
+static bool buttonPressed = false;
+
+void setup() {
+    pinMode(2, OUTPUT);
+    pinMode(3, INPUT);
+    pinMode(4, OUTPUT);
+
+    digitalWrite(2, HIGH);
+    digitalWrite(4, LOW);
+
+    Serial.begin(115200);
+
+    delay(1000);
+}
+
+void loop() {
+    if (!buttonPressed && digitalRead(3)) {
+        buttonPressed = true;
+    }
+
+    if (buttonPressed && !digitalRead(3)) {
+        delay(100);
+        buttonPressed = false;
+        deducePins();
+    }
+}
