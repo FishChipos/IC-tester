@@ -29,6 +29,28 @@ void loop() {
         PinFormat pinFormat = deducePins();
         ICType icType = deduceIC(pinFormat);
         Serial.print("Detected IC Type: ");
-        Serial.println(icType);
+        switch (icType) {
+            case AND:
+                Serial.println("AND");
+                break;
+            case OR:
+                Serial.println("OR");
+                break;
+            case NAND:
+                Serial.println("NAND");
+                break;
+            case XOR:
+                Serial.println("XOR");
+                break;
+            case NOT:
+                Serial.println("NOT");
+                break;
+            case NOR:
+                Serial.println("NOR");
+                break;
+            case RUSAK:
+                Serial.println("RUSAK");
+                break;
+        }
     }
 }

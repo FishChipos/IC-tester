@@ -7,6 +7,8 @@ enum ICType {
     OR,
     NAND,
     XOR,
+    NOT,
+    NOR,
     RUSAK
 };
 
