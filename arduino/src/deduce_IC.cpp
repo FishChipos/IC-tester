@@ -120,11 +120,11 @@ void injectInput(bool pattern[12], bool (&results)[6], int trial = 0) {
 void injectNOT(bool pattern[12], bool (&results)[6], int trial = 0) {
     int inputIndex = 0;
     for (int pin = A0; pin <= A11; ++pin) {
-        if (pattern[pin - A0] && (trial == 0 || trial == 2)) {
+        if (pattern[pin - A0] && (trial == 1 || trial == 2)) {
             digitalWrite(pin, HIGH);
             inputIndex++;
         }
-        else if (pattern[pin - A0] && (trial == 1 || trial == 3)) {
+        else if (pattern[pin - A0] && (trial == 3 || trial == 4)) {
             digitalWrite(pin, LOW);
             inputIndex++;
         };
@@ -190,7 +190,11 @@ ICType deduceIC(PinFormat pinFormat) {
         if (pinFormat == IN_OUT) {
             bool match = true;
             for (int output = 0; output < 6; ++output) {
-                if (results[output] != NOTTest[i % 2][output]) {
+                if (i == 1 && results[output] != NOTTest[1][output]) {
+                    match = false;
+                    break;
+                }
+                else if (i == 3 && results[output] != NOTTest[0][output]) {
                     match = false;
                     break;
                 }
