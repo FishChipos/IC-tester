@@ -1,6 +1,7 @@
 #include <Arduino.h>
 
 #include "deduce_pins.hpp"
+#include "deduce_IC.hpp"
 
 static bool buttonPressed = false;
 
@@ -25,6 +26,31 @@ void loop() {
     if (buttonPressed && !digitalRead(3)) {
         delay(100);
         buttonPressed = false;
-        deducePins();
+        PinFormat pinFormat = deducePins();
+        ICType icType = deduceIC(pinFormat);
+        Serial.print("Detected IC Type: ");
+        switch (icType) {
+            case AND:
+                Serial.println("AND");
+                break;
+            case OR:
+                Serial.println("OR");
+                break;
+            case NAND:
+                Serial.println("NAND");
+                break;
+            case XOR:
+                Serial.println("XOR");
+                break;
+            case NOT:
+                Serial.println("NOT");
+                break;
+            case NOR:
+                Serial.println("NOR");
+                break;
+            case RUSAK:
+                Serial.println("RUSAK");
+                break;
+        }
     }
 }
